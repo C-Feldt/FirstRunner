@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class HeroCharacterController : MonoBehaviour
 {
-    [SerializeField] LayerMask groundLayers;
-    [SerializeField] float runSpeed = 8f;
-    [SerializeField] float jumpHeight = 2f;
+    [SerializeField] private LayerMask groundLayers;
+    [SerializeField] private float runSpeed = 8f;
+    [SerializeField] private float jumpHeight = 2f;
 
     private CharacterController characterController;
     private float gravity = -50f;
     private Vector3 velocity;
     private bool isGrounded;
     private float horizontalInput;
+    private Animator animator;
 
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -50,5 +52,11 @@ public class HeroCharacterController : MonoBehaviour
 
         // Vertical Velocity
         characterController.Move(velocity * Time.deltaTime);
+
+        // Run Animation
+        animator.SetFloat("Speed", horizontalInput);
+
+        // Set IsGrounded
+        animator.SetBool("IsGrounded", isGrounded);
     }
 }
