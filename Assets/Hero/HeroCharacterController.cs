@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class HeroCharacterController : MonoBehaviour
 {
+    //Serialized variables
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float runSpeed = 8f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private Transform[] groundChecks;
     [SerializeField] private Transform[] wallChecks;
 
-    private CharacterController characterController;
+    // Public/Global variables
+    public string gameState = "Playing";
+    // List of current gameStates: StartMenu, Playing, GameOver, Victory
+
+    //Private variables
+    public CharacterController characterController;
     private float gravity = -50f;
     private Vector3 velocity;
     private bool isGrounded;
@@ -33,7 +39,26 @@ public class HeroCharacterController : MonoBehaviour
     void Update()
     {
 
-        horizontalInput = 1;
+        if(gameState == "Playing")
+        {
+            horizontalInput = 1;
+        }
+        else if (gameState == "GameOver")
+        {
+            horizontalInput = -0.3f;
+        }
+        else if (gameState == "Victory")
+        {
+            horizontalInput = 0;
+        }
+        else if (gameState == "StartMenu")
+        {
+            horizontalInput = 0;
+        }
+        else
+        {
+            horizontalInput = 0;
+        }
 
         // Face Forward
         transform.forward = new Vector3(horizontalInput, 0, Mathf.Abs(horizontalInput) - 1);
@@ -93,6 +118,12 @@ public class HeroCharacterController : MonoBehaviour
             }
             jumpTimer = -1;
         }
+
+        if(transform.position.y < -5)
+        {
+            gameState = "GameOver";
+        }
+
 
         // Vertical Velocity
         characterController.Move(velocity * Time.deltaTime);

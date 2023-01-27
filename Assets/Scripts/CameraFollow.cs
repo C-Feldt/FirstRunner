@@ -6,6 +6,8 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform target = null;
     [SerializeField] private float xOffset = 5;
+    
+    [SerializeField] private HeroCharacterController hero;
 
     private Vector3 offset;
 
@@ -16,6 +18,23 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x + xOffset, 0, target.position.z) + offset, Time.deltaTime * 3);
+        string gameState = hero.gameState;
+
+        if(gameState == "Playing")
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x + xOffset, 3f, -10f) + offset, Time.deltaTime * 3);
+        }
+        else if(gameState == "StartMenu")
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(-1.5f, 1f, -4f) + offset, Time.deltaTime * 3);
+        }
+        else if(gameState == "GameOver")
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x + xOffset, 3f, -10f) + offset, Time.deltaTime * 3);
+        }
+        else if(gameState == "Victory")
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x + xOffset, 3f, -10f) + offset, Time.deltaTime * 3);
+        }
     }
 }
