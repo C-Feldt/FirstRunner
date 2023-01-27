@@ -20,12 +20,14 @@ public class HeroCharacterController : MonoBehaviour
     private bool jumpPressed;
     private float jumpTimer;
     private float jumpGracePeriod = 0.2f;
+    private AudioSource jumpSoundEffect;
 
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        jumpSoundEffect = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -85,6 +87,10 @@ public class HeroCharacterController : MonoBehaviour
         if(isGrounded && (jumpPressed || (jumpTimer > 0 && Time.time < jumpTimer + jumpGracePeriod)))
         {
             velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
+            if(jumpSoundEffect != null)
+            {
+                jumpSoundEffect.Play();
+            }
             jumpTimer = -1;
         }
 
