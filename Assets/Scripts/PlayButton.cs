@@ -18,6 +18,6 @@ public class PlayButton : MonoBehaviour
     }
 
     private void OnMouseDown() {
-        hero.gameState = "Playing";
+        hero.gameState = "Instructions";
     }
 }

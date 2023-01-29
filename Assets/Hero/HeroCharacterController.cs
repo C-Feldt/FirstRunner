@@ -107,6 +107,10 @@ public class HeroCharacterController : MonoBehaviour
         if(jumpPressed)
         {
             jumpTimer = Time.time;
+            if(gameState == "Instructions")
+            {
+                gameState = "Playing";
+            }
         }
 
         if(isGrounded && (jumpPressed || (jumpTimer > 0 && Time.time < jumpTimer + jumpGracePeriod)))
