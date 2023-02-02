@@ -5,28 +5,28 @@ using UnityEngine;
 public class HeroCharacterController : MonoBehaviour
 {
     //Serialized variables
-    [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float runSpeed = 8f;
-    [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private Transform[] groundChecks;
-    [SerializeField] private Transform[] wallChecks;
+    [SerializeField] private LayerMask groundLayers;    // The "ground" layers the Hero collides with
+    [SerializeField] private float runSpeed = 8f;       // Hero's run speed
+    [SerializeField] private float jumpHeight = 2f;     // Hero's jump height (NOT jump duration)
+    [SerializeField] private Transform[] groundChecks;  // position that check's the Hero's bottom sides for the ground
+    [SerializeField] private Transform[] wallChecks;    // position that check's the Hero's sides for the walls
 
     // Public/Global variables
     public string gameState = "Playing";
     // List of current gameStates: StartMenu, Playing, GameOver, Victory
 
     //Private variables
-    public CharacterController characterController;
-    private float gravity = -50f;
-    private Vector3 velocity;
-    private bool isGrounded;
-    private bool isBlocked;
-    private float horizontalInput;
-    private Animator animator;
-    private bool jumpPressed;
-    private float jumpTimer;
-    private float jumpGracePeriod = 0.2f;
-    private AudioSource jumpSoundEffect;
+    public CharacterController characterController; // Hero's character controller
+    private float gravity = -50f;                   // Strength of gravity on the Hero
+    private Vector3 velocity;                       // Velocity of the hero    
+    private bool isGrounded;                        // Status of whether the Hero is grounded
+    private bool isBlocked;                         // Status of whether the Hero is being blocked
+    private float horizontalInput;                  // Hero's horizontal movement speed (run/walk/etc)
+    private Animator animator;                      // Animation manager for the Hero
+    private bool jumpPressed;                       // Status of whether a jump has been queued (for jump buffer)
+    private float jumpTimer;                        // Amount of time jump will remain loaded
+    private float jumpGracePeriod = 0.2f;           // Amount of time jumps stay loaded
+    private AudioSource jumpSoundEffect;            // Sound effect for the jump
 
 
     void Start()
@@ -39,6 +39,7 @@ public class HeroCharacterController : MonoBehaviour
     void Update()
     {
 
+        // Player's movement speed by gameState 
         if(gameState == "Playing")
         {
             horizontalInput = 1;
@@ -47,20 +48,12 @@ public class HeroCharacterController : MonoBehaviour
         {
             horizontalInput = -0.3f;
         }
-        else if (gameState == "Victory")
-        {
-            horizontalInput = 0;
-        }
-        else if (gameState == "StartMenu")
-        {
-            horizontalInput = 0;
-        }
         else
         {
             horizontalInput = 0;
         }
 
-        // Face Forward
+        // Set Hero to face forward while running
         transform.forward = new Vector3(horizontalInput, 0, Mathf.Abs(horizontalInput) - 1);
 
         // GroundCheck: checks for whether the player is on the ground
@@ -101,9 +94,10 @@ public class HeroCharacterController : MonoBehaviour
         characterController.Move(new Vector3(horizontalInput * runSpeed, 0, 0) * Time.deltaTime);    
         }
 
-        // Jump
+        // Stores Jump input
         jumpPressed = Input.GetButtonDown("Jump");
 
+        // Begins jump timer, and changes gameState if on Instructions screen
         if(jumpPressed)
         {
             jumpTimer = Time.time;
@@ -113,6 +107,7 @@ public class HeroCharacterController : MonoBehaviour
             }
         }
 
+        // Jump buffer for smoother gameplay; stores a jump input for short amount of time while in air
         if(isGrounded && (jumpPressed || (jumpTimer > 0 && Time.time < jumpTimer + jumpGracePeriod)))
         {
             velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
@@ -123,6 +118,7 @@ public class HeroCharacterController : MonoBehaviour
             jumpTimer = -1;
         }
 
+        // Ends game if player falls below certain height (off-screen)
         if(transform.position.y < -5)
         {
             gameState = "GameOver";

@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script manages the various UI elements within the game
+// Note: This is not exclusive to Unity-identified "UI", but also various in-world text elements used as UI
+
 public class UI : MonoBehaviour
 {
 
-    [SerializeField] private HeroCharacterController hero;
-    [SerializeField] private GameObject startScreen;
-    [SerializeField] private GameObject InstructionText;
-    [SerializeField] private GameObject victoryScreen;
-    [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private HeroCharacterController hero;  // Hero's script for GameState management
+    [SerializeField] private GameObject startScreen;        // The Start screen
+    [SerializeField] private GameObject InstructionText;    // The text for the Instructions (ie, "Press Spacebar to Jump", etc...)
+    [SerializeField] private GameObject victoryScreen;      // The Victory screen
+    [SerializeField] private GameObject gameOverScreen;     // The Game Over screen
 
     void Start()
     {
@@ -20,6 +23,8 @@ public class UI : MonoBehaviour
     {
         string gameState = hero.gameState;
 
+        // Manages UI based on current gameState
+        // Note: Play Again button not included due to use in multiple screens
         switch (gameState) {
             case "StartMenu":
                 startScreen.SetActive(true);
