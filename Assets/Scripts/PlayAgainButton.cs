@@ -9,6 +9,7 @@ public class PlayAgainButton : MonoBehaviour
     [SerializeField] private HeroCharacterController hero;  // Hero's script for GameState management
     [SerializeField] private Transform target;              // Object to be followed (the player)
     [SerializeField] private Transform cameraLocation;      // The camera's location
+    [SerializeField] private GameObject playAgainText;       // The play again text
     void Start()
     {
         
@@ -33,11 +34,12 @@ public class PlayAgainButton : MonoBehaviour
         }
     }
 
-    private void OnMouseDown() {
+    private void OnMouseDown()
+    {
 
         // Moves the character to the start again
         hero.characterController.enabled = false;
-        hero.characterController.transform.position = new Vector3(0, 1, 0);
+        hero.characterController.transform.position = new Vector3(0, 5, 0);
         hero.characterController.enabled = true;
 
         // Change gameState to StartMenu

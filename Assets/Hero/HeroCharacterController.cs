@@ -44,10 +44,6 @@ public class HeroCharacterController : MonoBehaviour
         {
             horizontalInput = 1;
         }
-        else if (gameState == "GameOver")
-        {
-            horizontalInput = -0.3f;
-        }
         else
         {
             horizontalInput = 0;

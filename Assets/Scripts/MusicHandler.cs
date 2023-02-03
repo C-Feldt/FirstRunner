@@ -22,13 +22,11 @@ public class MusicHandler : MonoBehaviour
         // Starts music when the gameState switches to "Playing", flips boolean to only run .Play() once
         if(gameState == "Playing" && !hasChangedState)
         {
-            Debug.Log("Music Start");
             bgMusic.Play();
             hasChangedState = true;
         }
         else if(gameState != "Playing" && hasChangedState)
         {
-            Debug.Log("Music End");
             bgMusic.Stop();
             hasChangedState = false;
         }

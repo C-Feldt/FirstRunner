@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class RandomTrailsEmit : MonoBehaviour
 {
+    [SerializeField] private HeroCharacterController hero;  // Hero's script for GameState management
     private TrailRenderer trailRenderer;    // The renderer for the trail shown as the player runs
     private float duration;                 // How long the trail will show for
     private float timestamp;                // The time the trail was changed
@@ -18,11 +19,18 @@ public class RandomTrailsEmit : MonoBehaviour
 
     void Update()
     {
-        if(Time.time > timestamp + duration)
+        if (hero.gameState == "Playing")
         {
-            duration = Random.Range(0.05f, 0.3f);
-            timestamp = Time.time;
-            trailRenderer.emitting = !trailRenderer.emitting;
+            if (Time.time > timestamp + duration)
+            {
+                duration = Random.Range(0.05f, 0.3f);
+                timestamp = Time.time;
+                trailRenderer.emitting = !trailRenderer.emitting;
+            }
+        }
+        else
+        {
+            trailRenderer.emitting = false;
         }
     }
 }
