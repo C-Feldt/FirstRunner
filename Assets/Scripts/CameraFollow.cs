@@ -30,6 +30,10 @@ public class CameraFollow : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(-1.5f, 1f, -4f) + offset, Time.deltaTime * 3);
         }
+        else if(gameState == "Options")
+        {
+            transform.position = Vector3.Lerp(transform.position, new Vector3(-12f, 4f, -2f) + offset, Time.deltaTime * 3);
+        }
         else if(gameState == "Instructions")
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(2f, 1f, -4f) + offset, Time.deltaTime * 3);

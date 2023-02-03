@@ -32,6 +32,12 @@ public class UI : MonoBehaviour
                 victoryScreen.SetActive(false);
                 gameOverScreen.SetActive(false);
                 break;
+            case "Options":
+                startScreen.SetActive(true);
+                InstructionText.SetActive(false);
+                victoryScreen.SetActive(false);
+                gameOverScreen.SetActive(false);
+                break;
             case "Instructions":
                 startScreen.SetActive(true);
                 InstructionText.SetActive(true);
