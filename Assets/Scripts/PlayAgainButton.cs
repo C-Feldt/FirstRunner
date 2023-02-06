@@ -44,6 +44,5 @@ public class PlayAgainButton : MonoBehaviour
 
         // Change gameState to StartMenu
         hero.gameState = "StartMenu";
-        Debug.Log("Play Again Pressed");
     }
 }

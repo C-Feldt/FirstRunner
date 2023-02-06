@@ -9,7 +9,7 @@ public class HeroCharacterController : MonoBehaviour
     [SerializeField] private float runSpeed = 8f;       // Hero's run speed
     [SerializeField] private float jumpHeight = 2f;     // Hero's jump height (NOT jump duration)
     [SerializeField] private Transform[] groundChecks;  // position that check's the Hero's bottom sides for the ground
-    [SerializeField] private Transform[] wallChecks;    // position that check's the Hero's sides for the walls
+    //[SerializeField] private Transform[] wallChecks;    // position that check's the Hero's sides for the walls
 
     // Public/Global variables
     public string gameState = "Playing";
@@ -74,15 +74,15 @@ public class HeroCharacterController : MonoBehaviour
         }
 
         // Wallcheck: checks for whether the player has run into a wall
-        isBlocked = false;
-        foreach (var wallCheck in wallChecks)
-        {
-            if(Physics.CheckSphere(wallCheck.position, 0.1f, groundLayers, QueryTriggerInteraction.Ignore))
-            {
-                isBlocked = true;
-                break;
-            }
-        }
+        // isBlocked = false;
+        // foreach (var wallCheck in wallChecks)
+        // {
+        //     if(Physics.CheckSphere(wallCheck.position, 0.1f, groundLayers, QueryTriggerInteraction.Ignore))
+        //     {
+        //         isBlocked = true;
+        //         break;
+        //     }
+        // }
 
         // Moves character forward if not blocked
         if(!isBlocked)
@@ -106,6 +106,7 @@ public class HeroCharacterController : MonoBehaviour
         // Jump buffer for smoother gameplay; stores a jump input for short amount of time while in air
         if(isGrounded && (jumpPressed || (jumpTimer > 0 && Time.time < jumpTimer + jumpGracePeriod)))
         {
+            velocity.y = 0;
             velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
             if(jumpSoundEffect != null)
             {
